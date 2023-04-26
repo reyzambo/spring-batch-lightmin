@@ -20,6 +20,7 @@ import org.tuxdevelop.spring.batch.lightmin.server.fe.model.scheduler.JobSchedul
 import org.tuxdevelop.spring.batch.lightmin.server.fe.model.scheduler.SchedulerStatusModel;
 import org.tuxdevelop.spring.batch.lightmin.server.fe.model.scheduler.SchedulerTypeModel;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public final class ServiceTestHelper {
@@ -40,8 +41,8 @@ public final class ServiceTestHelper {
     public static JobExecutionEventInfo createJobExecutionEvent(final Long jobExecutionId, final String applicationName) {
         final JobExecutionEventInfo jobExecutionEventInfo = new JobExecutionEventInfo();
         jobExecutionEventInfo.setApplicationName(applicationName);
-        jobExecutionEventInfo.setEndDate(new Date());
-        jobExecutionEventInfo.setStartDate(new Date());
+        jobExecutionEventInfo.setEndDate(LocalDateTime.now());
+        jobExecutionEventInfo.setStartDate(LocalDateTime.now());
         jobExecutionEventInfo.setExitStatus(new ExitStatus("COMPLETED"));
         jobExecutionEventInfo.setJobExecutionId(jobExecutionId);
         jobExecutionEventInfo.setJobName("test_job");

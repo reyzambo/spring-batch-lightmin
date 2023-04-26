@@ -32,7 +32,6 @@ public final class BatchToResourceMapper {
         response.setEndTime(jobExecution.getEndTime());
         response.setExitStatus(map(jobExecution.getExitStatus()));
         response.setFailureExceptions(jobExecution.getFailureExceptions());
-        response.setJobConfigurationName(jobExecution.getJobConfigurationName());
         response.setJobInstance(map(jobExecution.getJobInstance()));
         response.setJobParameters(map(jobExecution.getJobParameters()));
         response.setLastUpdated(jobExecution.getLastUpdated());
@@ -66,10 +65,10 @@ public final class BatchToResourceMapper {
 
     public static JobParameters map(final org.springframework.batch.core.JobParameters jobParameters) {
         final JobParameters response = new JobParameters();
-        final Map<String, org.springframework.batch.core.JobParameter> parametersMap = jobParameters.getParameters();
+        final Map<String, org.springframework.batch.core.JobParameter<?>> parametersMap = jobParameters.getParameters();
         if (!parametersMap.isEmpty()) {
             response.setParameters(new HashMap<>());
-            for (final Map.Entry<String, org.springframework.batch.core.JobParameter> entry : parametersMap.entrySet()) {
+            for (final Map.Entry<String, org.springframework.batch.core.JobParameter<?>> entry : parametersMap.entrySet()) {
                 final JobParameter jobParameter = new JobParameter();
                 jobParameter.setParameter(entry.getValue().getValue());
                 jobParameter.setParameterType(map(entry.getValue().getType()));
@@ -142,22 +141,17 @@ public final class BatchToResourceMapper {
         return response;
     }
 
-    public static ParameterType map(final org.springframework.batch.core.JobParameter.ParameterType parameterType) {
+    private static ParameterType map(Class<?> parameterType) {
         final ParameterType response;
-        switch (parameterType) {
-            case DATE:
-                response = ParameterType.DATE;
-                break;
-            case STRING:
+        if(Date.class.getName().equalsIgnoreCase(parameterType.getName())) {
+            response = ParameterType.DATE;
+        } else if(String.class.getName().equalsIgnoreCase(parameterType.getName())){
                 response = ParameterType.STRING;
-                break;
-            case LONG:
+        } else if(Long.class.getName().equalsIgnoreCase(parameterType.getName())){
                 response = ParameterType.LONG;
-                break;
-            case DOUBLE:
+        } else if(Double.class.getName().equalsIgnoreCase(parameterType.getName())){
                 response = ParameterType.DOUBLE;
-                break;
-            default:
+        } else {
                 throw new SpringBatchLightminApplicationException("Unknown ParameterType: " + parameterType);
         }
         return response;

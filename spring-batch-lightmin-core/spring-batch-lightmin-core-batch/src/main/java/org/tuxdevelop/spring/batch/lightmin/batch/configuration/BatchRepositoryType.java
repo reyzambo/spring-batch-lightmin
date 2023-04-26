@@ -6,6 +6,5 @@ package org.tuxdevelop.spring.batch.lightmin.batch.configuration;
  */
 public enum BatchRepositoryType {
 
-    MAP,
     JDBC
 }

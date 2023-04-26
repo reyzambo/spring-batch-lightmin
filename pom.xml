@@ -16,7 +16,7 @@
     </description>
 
     <!-- project url -->
-    <url>https://github.com/tuxdevelop/spring-batch-lightmin</url>
+    <url>https://github.com/reyzambo/spring-batch-lightmin</url>
 
     <!-- license -->
     <licenses>
@@ -30,9 +30,13 @@
             <name>Marcel Becker</name>
             <email>tuxdevelop@gmail.com</email>
         </developer>
+        <developer>
+            <name>Massimo Zamboni</name>
+            <email>reyzambo2@hotmail.com</email>
+        </developer>
     </developers>
 
-    <version>2.2.2-SNAPSHOT</version>
+    <version>3.0.2-SNAPSHOT</version>
 
     <modules>
         <module>spring-batch-lightmin-core</module>
@@ -51,26 +55,24 @@
     </modules>
 
     <properties>
-        <spring.boot.version>2.4.1</spring.boot.version>
-        <spring-cloud-dependencies.version>2020.0.0</spring-cloud-dependencies.version>
-        <assertj.version>3.15.0</assertj.version>
-        <openpojo.version>0.8.13</openpojo.version>
-        <equalsverifier.version>1.7.5</equalsverifier.version>
+        <spring.boot.version>3.0.2</spring.boot.version>
+        <spring-cloud-dependencies.version>2022.0.1</spring-cloud-dependencies.version>
+        <assertj.version>3.24.2</assertj.version>
+        <openpojo.version>0.9.1</openpojo.version>
+        <equalsverifier.version>3.13</equalsverifier.version>
         <datafactory.version>0.8</datafactory.version>
-        <jacoco.version>0.8.5</jacoco.version>
-        <infinispan9.version>9.4.20.Final</infinispan9.version>
-        <infinispan.version>11.0.8.Final</infinispan.version>
+        <jacoco.version>0.8.8</jacoco.version>
+        <infinispan.version>14.0.6.Final</infinispan.version>
         <!-- plugin versions -->
-        <maven-compiler-plugin.version>3.6.2</maven-compiler-plugin.version>
-        <maven-compiler-plugin.source>1.8</maven-compiler-plugin.source>
-        <maven-compiler-plugin.target>1.8</maven-compiler-plugin.target>
-        <nexus-staging-maven-plugin.version>1.6.3</nexus-staging-maven-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.source>11</maven-compiler-plugin.source>
+        <maven-compiler-plugin.target>11</maven-compiler-plugin.target>
+<!--        <nexus-staging-maven-plugin.version>1.6.3</nexus-staging-maven-plugin.version>-->
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
-        <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
+        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
         <maven-failsaife-plugin.version>2.20.1</maven-failsaife-plugin.version>
-        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
-        <asciidoctor.version>1.5.2</asciidoctor.version>
+        <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
         <!-- jacoco -->
         <jacoco.skip>false</jacoco.skip>
     </properties>
@@ -350,17 +352,17 @@
             <build>
                 <plugins>
                     <!-- sonatype -->
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${nexus-staging-maven-plugin.version}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
+<!--                    <plugin>-->
+<!--                        <groupId>org.sonatype.plugins</groupId>-->
+<!--                        <artifactId>nexus-staging-maven-plugin</artifactId>-->
+<!--                        <version>${nexus-staging-maven-plugin.version}</version>-->
+<!--                        <extensions>true</extensions>-->
+<!--                        <configuration>-->
+<!--                            <serverId>ossrh</serverId>-->
+<!--                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+<!--                            <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -391,6 +393,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.5.0</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>

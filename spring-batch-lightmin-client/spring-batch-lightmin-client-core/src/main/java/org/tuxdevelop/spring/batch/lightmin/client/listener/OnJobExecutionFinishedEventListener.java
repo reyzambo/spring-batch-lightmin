@@ -29,7 +29,7 @@ public class OnJobExecutionFinishedEventListener implements ApplicationListener<
     public void onApplicationEvent(final JobExecutionEvent jobExecutionEvent) {
         final JobExecution jobExecution = jobExecutionEvent.getJobExecution();
         if (jobExecution != null) {
-            log.info(jobExecution.getJobInstance().getJobName() + ", Status: " + jobExecution.getStatus().getBatchStatus() +
+            log.info(jobExecution.getJobInstance().getJobName() + ", Status: " + jobExecution.getStatus().name() +
                     ", Exit: " + jobExecution.getExitStatus().getExitCode());
             final JobExecutionEventInfo jobExecutionEventInfo =
                     EventTransformer.transformToJobExecutionEventInfo(

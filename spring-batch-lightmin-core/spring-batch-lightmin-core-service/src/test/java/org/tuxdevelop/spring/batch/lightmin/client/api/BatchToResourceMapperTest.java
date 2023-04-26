@@ -114,7 +114,6 @@ public class BatchToResourceMapperTest {
         assertThat(result.getEndTime()).isEqualTo(jobExecution.getEndTime());
         assertThat(result.getFailureExceptions()).isEqualTo(jobExecution.getFailureExceptions());
         assertThat(result.getId()).isEqualTo(jobExecution.getId());
-        assertThat(result.getJobConfigurationName()).isEqualTo(jobExecution.getJobConfigurationName());
         assertThat(result.getLastUpdated()).isEqualTo(jobExecution.getLastUpdated());
         assertThat(result.getStartTime()).isEqualTo(jobExecution.getStartTime());
         assertThat(result.getVersion()).isEqualTo(jobExecution.getVersion());

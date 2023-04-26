@@ -2,10 +2,10 @@ package org.tuxdevelop.test.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminMapConfigurationRepository;
+import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminJdbcConfigurationRepository;
 
 @Configuration
-@EnableLightminMapConfigurationRepository
+@EnableLightminJdbcConfigurationRepository
 @Import(value = {ITJobConfiguration.class})
 public class ITEmbeddedConfiguration {
 

@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.tuxdevelop.spring.batch.lightmin.server.fe.model.common.CommonExecutionModel;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -13,6 +13,6 @@ import java.util.Date;
 public class JobExecutionModel extends CommonExecutionModel {
 
     private Long instanceId;
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

@@ -43,7 +43,7 @@ public class DefaultJobService implements JobService {
     public int getJobInstanceCount(final String jobName) {
         int jobInstanceCount = 0;
         try {
-            jobInstanceCount = this.jobExplorer.getJobInstanceCount(jobName);
+            jobInstanceCount = Long.valueOf(this.jobExplorer.getJobInstanceCount(jobName)).intValue();
         } catch (final NoSuchJobException e) {
             log.info(e.getMessage(), e);
         }

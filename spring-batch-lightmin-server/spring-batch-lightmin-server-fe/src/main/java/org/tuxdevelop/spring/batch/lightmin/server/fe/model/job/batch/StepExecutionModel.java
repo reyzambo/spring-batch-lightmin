@@ -11,11 +11,11 @@ import org.tuxdevelop.spring.batch.lightmin.server.fe.model.common.CommonExecuti
 public class StepExecutionModel extends CommonExecutionModel {
 
     private String stepName;
-    private int readCount;
-    private int writeCount;
-    private int commitCount;
-    private int rollbackCount;
-    private int readSkipCount;
-    private int processSkipCount;
-    private int writeSkipCount;
+    private long readCount;
+    private long writeCount;
+    private long commitCount;
+    private long rollbackCount;
+    private long readSkipCount;
+    private long processSkipCount;
+    private long writeSkipCount;
 }

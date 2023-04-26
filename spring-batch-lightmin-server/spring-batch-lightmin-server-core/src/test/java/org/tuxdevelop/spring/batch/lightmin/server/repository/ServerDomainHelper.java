@@ -7,6 +7,7 @@ import org.tuxdevelop.spring.batch.lightmin.client.api.LightminClientApplication
 import org.tuxdevelop.spring.batch.lightmin.client.api.LightminClientInformation;
 import org.tuxdevelop.spring.batch.lightmin.server.domain.Journal;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -41,11 +42,11 @@ public final class ServerDomainHelper {
     public static JobExecutionEventInfo createJobExecutionEventInfo(final String appName, final String jobName, final ExitStatus exitStatus) {
         final JobExecutionEventInfo info = new JobExecutionEventInfo();
         info.setApplicationName(appName);
-        info.setEndDate(new Date());
+        info.setEndDate(LocalDateTime.now());
         info.setExitStatus(exitStatus);
         info.setJobExecutionId(new Random().nextLong());
         info.setJobName(jobName);
-        info.setStartDate(new Date(System.currentTimeMillis() - 10000L));
+        info.setStartDate(LocalDateTime.now().minusNanos(10000));
         return info;
     }
 

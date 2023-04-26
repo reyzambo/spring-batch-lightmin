@@ -1,11 +1,10 @@
 package org.tuxdevelop.spring.batch.lightmin.api.resource.admin;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.tuxdevelop.spring.batch.lightmin.validation.annotation.IsCronExpression;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

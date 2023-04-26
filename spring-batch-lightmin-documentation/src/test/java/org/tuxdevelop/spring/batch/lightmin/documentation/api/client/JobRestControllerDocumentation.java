@@ -16,7 +16,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
 public class JobRestControllerDocumentation extends AbstractServiceDocumentation {
 
@@ -53,7 +53,7 @@ public class JobRestControllerDocumentation extends AbstractServiceDocumentation
                                         .removePort(),
                                 prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("jobinstanceid").description("The job instance id"),
                                 parameterWithName("startindex").description("Index start position of the page"),
                                 parameterWithName("pagesize").description("Size of the page"))))
@@ -78,7 +78,7 @@ public class JobRestControllerDocumentation extends AbstractServiceDocumentation
                                         .removePort(),
                                 prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("jobinstanceid").description("The job instance id"))))
                 .when()
                 .port(this.getServerPort())
@@ -99,7 +99,7 @@ public class JobRestControllerDocumentation extends AbstractServiceDocumentation
                                         .removePort(),
                                 prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("jobname").description("The name of the Spring Batch Job"))))
                 .when()
                 .port(this.getServerPort())
@@ -187,7 +187,7 @@ public class JobRestControllerDocumentation extends AbstractServiceDocumentation
                 .get(AbstractRestController.JobRestControllerAPI.JOB_EXECUTIONS_STOP, this.launchedJobExecutionId)
                 .then()
                 .assertThat().statusCode(is(200));
-        this.myThread.stop();
+//        this.myThread.stop();
     }
 
     @Test
@@ -223,7 +223,7 @@ public class JobRestControllerDocumentation extends AbstractServiceDocumentation
                                         .removePort(),
                                 prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("jobname").description("The name of the Spring Batch Job"))))
                 .when()
                 .port(this.getServerPort())
@@ -251,7 +251,7 @@ public class JobRestControllerDocumentation extends AbstractServiceDocumentation
                                         .removePort(),
                                 prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
+                        queryParameters(
                                 parameterWithName("jobname").description("The name of the Spring Batch Job"),
                                 parameterWithName("resultsize").description("The maximum size of the result"))))
                 .when()

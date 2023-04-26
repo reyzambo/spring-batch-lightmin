@@ -3,6 +3,8 @@ package org.tuxdevelop.spring.batch.lightmin.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -52,6 +54,11 @@ public final class DurationHelper {
         final Long duration = endTime.getTime() - startTime.getTime() < 0 ? 0 : endTime.getTime() - startTime.getTime();
 
         return format(new Date(duration));
+    }
+
+
+    public static String createDurationValue(LocalDateTime startTime, LocalDateTime endTime) {
+        return createDurationValue(Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant()), Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant()));
     }
 
     private static String format(final Date date) {

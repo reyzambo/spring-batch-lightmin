@@ -48,7 +48,7 @@ public class DefaultJobServiceTest {
     @Test
     public void getJobInstanceCountTest() throws NoSuchJobException {
         final Integer expectedInstanceCount = 10;
-        when(this.jobExplorer.getJobInstanceCount(JOB_NAME)).thenReturn(expectedInstanceCount);
+        when(this.jobExplorer.getJobInstanceCount(JOB_NAME)).thenReturn(Long.valueOf(expectedInstanceCount));
         final Integer instanceCount = this.jobService.getJobInstanceCount(JOB_NAME);
         assertThat(instanceCount).isEqualTo(expectedInstanceCount);
     }
@@ -195,7 +195,7 @@ public class DefaultJobServiceTest {
         final List<JobExecution> jobExecutions = new LinkedList<>();
         final JobParameters jobParameters = new JobParametersBuilder().addLong("long", 1L).addString("String",
                 "someString").toJobParameters();
-        final JobExecution jobExecution = new JobExecution(1L, jobParameters, "test");
+        final JobExecution jobExecution = new JobExecution(1L, jobParameters);
         jobExecutions.add(jobExecution);
         when(this.lightminJobExecutionDao.getJobExecutions(anyString(), anyInt(), anyInt())).thenReturn(jobExecutions);
         final JobParameters result = this.jobService.getLastJobParameters("test");

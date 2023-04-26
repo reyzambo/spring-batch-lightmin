@@ -1,10 +1,10 @@
 package org.tuxdevelop.spring.batch.lightmin.validation.validator;
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.tuxdevelop.spring.batch.lightmin.validation.annotation.IsCronExpression;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class CronExpressionValidator implements ConstraintValidator<IsCronExpression, String> {
 
@@ -22,7 +22,7 @@ public class CronExpressionValidator implements ConstraintValidator<IsCronExpres
             return Boolean.TRUE;
         }
         if (value != null) {
-            String[] fields = StringUtils.tokenizeToStringArray(value, " ");
+            String[] fields = StringUtils.split(value, " ");
             isValid = org.quartz.CronExpression.isValidExpression(value) && fields != null && fields.length == 6;
         }
         return isValid;

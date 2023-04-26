@@ -3,7 +3,7 @@ package org.tuxdevelop.spring.batch.lightmin.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.tuxdevelop.spring.batch.lightmin.validation.annotation.PathExists;
 
 @Data
@@ -33,10 +33,10 @@ public class JobListenerConfiguration extends AbstractConfiguration {
     }
 
     private void validateLocalFolderListener() {
-        if (!StringUtils.hasText(this.sourceFolder)) {
+        if (StringUtils.isEmpty(this.sourceFolder)) {
             this.throwExceptionAndLogError("sourceFolder must not be null or empty");
         }
-        if (!StringUtils.hasText(this.filePattern)) {
+        if (StringUtils.isEmpty(this.filePattern)) {
             this.throwExceptionAndLogError("filePattern must not be null or empty");
         }
     }

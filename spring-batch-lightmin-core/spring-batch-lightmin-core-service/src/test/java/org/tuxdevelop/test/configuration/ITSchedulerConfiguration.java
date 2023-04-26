@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.tuxdevelop.spring.batch.lightmin.annotation.EnableLightminService;
 import org.tuxdevelop.spring.batch.lightmin.domain.*;
-import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminMapConfigurationRepository;
+import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminJdbcConfigurationRepository;
 import org.tuxdevelop.spring.batch.lightmin.scheduler.CronScheduler;
 import org.tuxdevelop.spring.batch.lightmin.scheduler.PeriodScheduler;
 import org.tuxdevelop.spring.batch.lightmin.test.domain.DomainTestHelper;
 
 @Configuration
 @EnableLightminService
-@EnableLightminMapConfigurationRepository
+@EnableLightminJdbcConfigurationRepository
 public class ITSchedulerConfiguration {
 
     @Autowired

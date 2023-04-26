@@ -8,13 +8,13 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.tuxdevelop.spring.batch.lightmin.batch.annotation.EnableLightminBatch;
-import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminMapConfigurationRepository;
+import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminJdbcConfigurationRepository;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableLightminBatch
-@EnableLightminMapConfigurationRepository
+@EnableLightminJdbcConfigurationRepository
 @PropertySource(value = "classpath:application.properties")
 @Import(value = {ITJobConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)

@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.tuxdevelop.spring.batch.lightmin.annotation.EnableLightminService;
-import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminMapConfigurationRepository;
+import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminJdbcConfigurationRepository;
 
 @Configuration
 @EnableLightminService
-@EnableLightminMapConfigurationRepository
+@EnableLightminJdbcConfigurationRepository
 @Import(value = {ITSchedulerConfiguration.class, ITJobConfiguration.class})
 @PropertySource(value = "classpath:properties/map.properties")
 public class ITConfiguration {

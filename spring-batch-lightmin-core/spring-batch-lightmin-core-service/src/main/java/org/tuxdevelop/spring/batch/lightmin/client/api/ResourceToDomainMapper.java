@@ -39,28 +39,28 @@ public final class ResourceToDomainMapper {
     }
 
     public static org.springframework.batch.core.JobParameters map(final JobParameters jobParameters) {
-        final Map<String, org.springframework.batch.core.JobParameter> parametersMap = new HashMap<>();
+        final Map<String, org.springframework.batch.core.JobParameter<?>> parametersMap = new HashMap<>();
         if (jobParameters != null) {
             for (final Map.Entry<String, JobParameter> entry : jobParameters.getParameters().entrySet()) {
-                final org.springframework.batch.core.JobParameter.ParameterType parameterType = map(entry.getValue()
-                        .getParameterType());
-                final org.springframework.batch.core.JobParameter jobParameter;
+                ParameterType parameterType = entry.getValue()
+                        .getParameterType();
+                final org.springframework.batch.core.JobParameter<?> jobParameter;
                 final String parameter = String.valueOf(entry.getValue().getParameter());
                 switch (parameterType) {
                     case STRING:
-                        jobParameter = new org.springframework.batch.core.JobParameter(parameter);
+                        jobParameter = new org.springframework.batch.core.JobParameter<>(parameter, String.class);
                         break;
                     case DOUBLE:
-                        jobParameter = new org.springframework.batch.core.JobParameter(Double.parseDouble(parameter));
+                        jobParameter = new org.springframework.batch.core.JobParameter<>(Double.parseDouble(parameter), Double.class);
                         break;
                     case LONG:
-                        jobParameter = new org.springframework.batch.core.JobParameter(Long.parseLong(parameter));
+                        jobParameter = new org.springframework.batch.core.JobParameter<>(Long.parseLong(parameter), Long.class);
                         break;
                     case DATE:
-                        jobParameter = new org.springframework.batch.core.JobParameter((Date) entry.getValue().getParameter());
+                        jobParameter = new org.springframework.batch.core.JobParameter<>((Date) entry.getValue().getParameter(), Date.class);
                         break;
                     default:
-                        throw new SpringBatchLightminApplicationException("Unknown JobParameterType: " + entry.getValue().getParameterType());
+                        throw new SpringBatchLightminApplicationException("Unknown JobParameterType: " + parameterType);
                 }
                 parametersMap.put(entry.getKey(), jobParameter);
             }
@@ -211,27 +211,6 @@ public final class ResourceToDomainMapper {
             }
         }
         return jobParameterMap;
-    }
-
-    private static org.springframework.batch.core.JobParameter.ParameterType map(final ParameterType parameterType) {
-        final org.springframework.batch.core.JobParameter.ParameterType response;
-        switch (parameterType) {
-            case DATE:
-                response = org.springframework.batch.core.JobParameter.ParameterType.DATE;
-                break;
-            case STRING:
-                response = org.springframework.batch.core.JobParameter.ParameterType.STRING;
-                break;
-            case LONG:
-                response = org.springframework.batch.core.JobParameter.ParameterType.LONG;
-                break;
-            case DOUBLE:
-                response = org.springframework.batch.core.JobParameter.ParameterType.DOUBLE;
-                break;
-            default:
-                throw new SpringBatchLightminApplicationException("Unknown ParameterType: " + parameterType);
-        }
-        return response;
     }
 
 }

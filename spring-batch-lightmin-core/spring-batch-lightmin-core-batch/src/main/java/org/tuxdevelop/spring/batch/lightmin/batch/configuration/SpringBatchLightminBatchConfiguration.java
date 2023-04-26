@@ -1,16 +1,14 @@
 package org.tuxdevelop.spring.batch.lightmin.batch.configuration;
 
 import org.springframework.batch.core.configuration.JobRegistry;
-import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.support.DefaultBatchConfiguration;
 import org.springframework.batch.core.configuration.support.MapJobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobOperator;
+import org.springframework.batch.core.launch.support.TaskExecutorJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +24,20 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.incrementer.AbstractDataFieldMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.tuxdevelop.spring.batch.lightmin.batch.dao.JdbcLightminJobExecutionDao;
 import org.tuxdevelop.spring.batch.lightmin.batch.dao.LightminJobExecutionDao;
-import org.tuxdevelop.spring.batch.lightmin.batch.dao.MapLightminJobExecutionDao;
 import org.tuxdevelop.spring.batch.lightmin.exception.SpringBatchLightminConfigurationException;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 @Configuration
 @EnableBatchProcessing
 @EnableConfigurationProperties(value = {SpringBatchLightminBatchConfigurationProperties.class})
-public class SpringBatchLightminBatchConfiguration {
+public class SpringBatchLightminBatchConfiguration extends DefaultBatchConfiguration {
 
     private final SpringBatchLightminBatchConfigurationProperties properties;
-    private final ApplicationContext applicationContext;
     private final DataFieldMaxValueIncrementer incrementer = new AbstractDataFieldMaxValueIncrementer() {
         @Override
         protected long getNextKey() {
@@ -55,29 +53,23 @@ public class SpringBatchLightminBatchConfiguration {
     }
     
     @Bean
-    @ConditionalOnMissingBean(value = BatchConfigurer.class)
-    public BatchConfigurer batchConfigurer(final ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
+    @ConditionalOnMissingBean(value = BasicSpringBatchLightminBatchConfigurer.class)
+    public BasicSpringBatchLightminBatchConfigurer batchConfigurer(final ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
         final BasicSpringBatchLightminBatchConfigurer batchConfigurer;
         final BatchRepositoryType batchRepositoryType = SpringBatchLightminBatchConfiguration.this.properties.getRepositoryType();
-        switch (batchRepositoryType) {
-            case JDBC:
-                final DataSource dataSource = SpringBatchLightminBatchConfiguration.this.getDataSource();
-                final String tablePrefix = SpringBatchLightminBatchConfiguration.this.properties.getTablePrefix();
-                batchConfigurer = new BasicSpringBatchLightminBatchConfigurer(transactionManagerCustomizers.getIfAvailable(), dataSource, tablePrefix);
-                break;
-            case MAP:
-                batchConfigurer = new BasicSpringBatchLightminBatchConfigurer(transactionManagerCustomizers.getIfAvailable());
-                break;
-            default:
-                throw new SpringBatchLightminConfigurationException("Unknown BatchRepositoryType: " + batchRepositoryType);
-
+        if (Objects.requireNonNull(batchRepositoryType) == BatchRepositoryType.JDBC) {
+            final DataSource dataSource = SpringBatchLightminBatchConfiguration.this.getDataSource();
+            final String tablePrefix = SpringBatchLightminBatchConfiguration.this.properties.getTablePrefix();
+            batchConfigurer = new BasicSpringBatchLightminBatchConfigurer(transactionManagerCustomizers.getIfAvailable(), dataSource, tablePrefix);
+        } else {
+            throw new SpringBatchLightminConfigurationException("Unknown BatchRepositoryType: " + batchRepositoryType);
         }
         return batchConfigurer;
     }
 
     @Bean
     @ConditionalOnMissingBean(value = {JobRepository.class})
-    public JobRepository jobRepository(final BatchConfigurer batchConfigurer) throws Exception {
+    public JobRepository jobRepository(final BasicSpringBatchLightminBatchConfigurer batchConfigurer) {
         return batchConfigurer.getJobRepository();
     }
 
@@ -86,7 +78,7 @@ public class SpringBatchLightminBatchConfiguration {
      */
     @Bean(name = "defaultAsyncJobLauncher")
     public JobLauncher defaultAsyncJobLauncher(final JobRepository jobRepository) {
-        final SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
+        final TaskExecutorJobLauncher jobLauncher = new TaskExecutorJobLauncher();
         jobLauncher.setJobRepository(jobRepository);
         jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
         return jobLauncher;
@@ -94,42 +86,29 @@ public class SpringBatchLightminBatchConfiguration {
 
     @Primary
     @Bean(name = "jobLauncher")
-    public JobLauncher jobLauncher(final BatchConfigurer batchConfigurer) throws Exception {
+    public JobLauncher jobLauncher(final BasicSpringBatchLightminBatchConfigurer batchConfigurer) {
         return batchConfigurer.getJobLauncher();
     }
 
     @Bean
     @ConditionalOnMissingBean(value = {JobLauncher.class})
-    public JobExplorer jobExplorer(final BatchConfigurer batchConfigurer) throws Exception {
+    public JobExplorer jobExplorer(final BasicSpringBatchLightminBatchConfigurer batchConfigurer) {
         return batchConfigurer.getJobExplorer();
     }
 
     @Bean
-    @ConditionalOnMissingBean(value = {StepBuilderFactory.class})
-    public StepBuilderFactory stepBuilderFactory(final BatchConfigurer batchConfigurer) throws Exception {
-        return new StepBuilderFactory(batchConfigurer.getJobRepository(), batchConfigurer.getTransactionManager());
+    public PlatformTransactionManager transactionManager(final BasicSpringBatchLightminBatchConfigurer batchConfigurer){
+        return batchConfigurer.getTransactionManager();
     }
 
     @Bean
-    @ConditionalOnMissingBean(value = {JobBuilderFactory.class})
-    public JobBuilderFactory jobBuilderFactory(final JobRepository jobRepository) {
-        return new JobBuilderFactory(jobRepository);
-    }
-
-    @Bean
-    public LightminJobExecutionDao lightminJobExecutionDao(final BatchConfigurer batchConfigurer) throws Exception {
+    public LightminJobExecutionDao lightminJobExecutionDao() throws Exception {
         final BatchRepositoryType batchRepositoryType = this.properties.getRepositoryType();
         final LightminJobExecutionDao lightminJobExecutionDao;
-        switch (batchRepositoryType) {
-            case JDBC:
-                lightminJobExecutionDao = this.createLightminJobExecutionDao();
-                break;
-            case MAP:
-                lightminJobExecutionDao = new MapLightminJobExecutionDao(batchConfigurer.getJobExplorer());
-                break;
-            default:
-                throw new SpringBatchLightminConfigurationException("Unknown BatchRepositoryType: " + batchRepositoryType);
-
+        if (Objects.requireNonNull(batchRepositoryType) == BatchRepositoryType.JDBC) {
+            lightminJobExecutionDao = this.createLightminJobExecutionDao();
+        } else {
+            throw new SpringBatchLightminConfigurationException("Unknown BatchRepositoryType: " + batchRepositoryType);
         }
         return lightminJobExecutionDao;
     }
@@ -149,6 +128,7 @@ public class SpringBatchLightminBatchConfiguration {
         return jobOperator;
     }
 
+    @Override
     @Bean
     @ConditionalOnMissingBean(value = {JobRegistry.class})
     public JobRegistry jobRegistry() {
@@ -166,7 +146,8 @@ public class SpringBatchLightminBatchConfiguration {
         return dao;
     }
 
-    DataSource getDataSource() {
+    @Override
+    protected DataSource getDataSource() {
         return this.applicationContext.getBean(this.properties.getDataSourceName(), DataSource.class);
     }
 

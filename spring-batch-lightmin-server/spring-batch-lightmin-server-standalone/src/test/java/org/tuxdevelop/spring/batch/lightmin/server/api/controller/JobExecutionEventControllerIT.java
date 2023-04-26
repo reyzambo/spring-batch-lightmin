@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,7 +16,7 @@ import org.tuxdevelop.spring.batch.lightmin.server.service.EventService;
 import org.tuxdevelop.test.configuration.ITServerConfiguration;
 import org.tuxdevelop.test.configuration.ITServerConfigurationApplication;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,8 +41,8 @@ public class JobExecutionEventControllerIT {
         jobExecutionEventInfo.setApplicationName("testApp");
         jobExecutionEventInfo.setJobName("test");
         jobExecutionEventInfo.setJobExecutionId(1L);
-        jobExecutionEventInfo.setEndDate(new Date());
-        jobExecutionEventInfo.setStartDate(new Date());
+        jobExecutionEventInfo.setEndDate(LocalDateTime.now());
+        jobExecutionEventInfo.setStartDate(LocalDateTime.now());
         jobExecutionEventInfo.setExitStatus(new ExitStatus(org.springframework.batch.core.ExitStatus.COMPLETED.getExitCode()));
         final ResponseEntity<Void> response = this.restTemplate.postForEntity(
                 LOCALHOST + ":" + this.getServerPort() + "/api/events/jobexecutions", jobExecutionEventInfo, Void.class);

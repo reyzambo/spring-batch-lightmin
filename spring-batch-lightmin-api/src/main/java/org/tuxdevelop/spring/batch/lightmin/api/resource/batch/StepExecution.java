@@ -3,7 +3,7 @@ package org.tuxdevelop.spring.batch.lightmin.api.resource.batch;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -20,18 +20,18 @@ public class StepExecution implements Serializable {
     private Long jobExecutionId;
     private String stepName;
     private BatchStatus status;
-    private int readCount;
-    private int writeCount;
-    private int commitCount;
-    private int rollbackCount;
-    private int readSkipCount;
-    private int processSkipCount;
-    private int writeSkipCount;
-    private Date startTime;
-    private Date endTime;
-    private Date lastUpdated;
+    private long readCount;
+    private long writeCount;
+    private long commitCount;
+    private long rollbackCount;
+    private long readSkipCount;
+    private long processSkipCount;
+    private long writeSkipCount;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private LocalDateTime lastUpdated;
     private ExitStatus exitStatus;
     private boolean terminateOnly;
-    private int filterCount;
+    private long filterCount;
     private List<Throwable> failureExceptions;
 }

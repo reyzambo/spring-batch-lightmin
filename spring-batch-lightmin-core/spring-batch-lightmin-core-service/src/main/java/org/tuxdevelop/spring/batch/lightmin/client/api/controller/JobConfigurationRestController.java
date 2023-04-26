@@ -4,17 +4,19 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.tuxdevelop.spring.batch.lightmin.api.resource.admin.JobConfiguration;
 import org.tuxdevelop.spring.batch.lightmin.api.resource.admin.JobConfigurations;
 import org.tuxdevelop.spring.batch.lightmin.service.ServiceEntry;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * @author Marcel Becker
  * @version 0.1
  */
+@Controller
 @ResponseBody
 @RequestMapping("/")
 public class JobConfigurationRestController extends AbstractRestController implements InitializingBean {
@@ -33,7 +35,7 @@ public class JobConfigurationRestController extends AbstractRestController imple
      *
      * @return all JobConfigurations
      */
-    @RequestMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATIONS, produces = PRODUCES, method = RequestMethod.GET)
+    @GetMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATIONS, produces = PRODUCES)
     public ResponseEntity<JobConfigurations> getJobConfigurations() {
         final JobConfigurations jobConfigurations = this.serviceEntry.getJobConfigurations(this.jobRegistry.getJobNames());
         return ResponseEntity.ok(jobConfigurations);
@@ -46,7 +48,7 @@ public class JobConfigurationRestController extends AbstractRestController imple
      * @param jobName the name of the Spring Batch job
      * @return the JobConfigurations of the Spring Batch Job
      */
-    @RequestMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATIONS_JOB_NAME, produces = PRODUCES, method = RequestMethod.GET)
+    @GetMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATIONS_JOB_NAME, produces = PRODUCES)
     public ResponseEntity<JobConfigurations> getJobConfigurationsByJobName(
             @PathVariable("jobname") final String jobName) {
         @Valid final JobConfigurations jobConfigurations = this.serviceEntry.getJobConfigurationsByJobName(jobName);
@@ -59,7 +61,7 @@ public class JobConfigurationRestController extends AbstractRestController imple
      * @param jobConfigurationId the id of the jobConfiguration
      * @return the JobConfiguration
      */
-    @RequestMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATION_JOB_CONFIGURATION_ID, produces = PRODUCES, method = RequestMethod.GET)
+    @GetMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATION_JOB_CONFIGURATION_ID, produces = PRODUCES)
     public ResponseEntity<JobConfiguration> getJobConfigurationById(
             @PathVariable("jobconfigurationid") final Long jobConfigurationId) {
         final JobConfiguration jobConfiguration = this.serviceEntry.getJobConfigurationById(jobConfigurationId);
@@ -72,7 +74,7 @@ public class JobConfigurationRestController extends AbstractRestController imple
      * @param jobConfiguration the JobConfiguration to add
      * @return HTTP Status Code 201
      */
-    @RequestMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATIONS, consumes = CONSUMES, method = RequestMethod.POST)
+    @PostMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATIONS, consumes = CONSUMES)
     public ResponseEntity<Void> addJobConfiguration(@Valid @RequestBody final JobConfiguration jobConfiguration) {
         this.serviceEntry.saveJobConfiguration(jobConfiguration);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -84,7 +86,7 @@ public class JobConfigurationRestController extends AbstractRestController imple
      * @param jobConfiguration the JobConfiguration to update
      * @return HTTP Status Code 200
      */
-    @RequestMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATIONS, consumes = CONSUMES, method = RequestMethod.PUT)
+    @PutMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATIONS, consumes = CONSUMES)
     public ResponseEntity<Void> updateJobConfiguration(@RequestBody final JobConfiguration jobConfiguration) {
         this.serviceEntry.updateJobConfiguration(jobConfiguration);
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -96,7 +98,7 @@ public class JobConfigurationRestController extends AbstractRestController imple
      * @param jobConfigurationId the id of the JobConfiguration
      * @return HTTP Status Code 200
      */
-    @RequestMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATION_JOB_CONFIGURATION_ID, method = RequestMethod.DELETE)
+    @DeleteMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATION_JOB_CONFIGURATION_ID)
     public ResponseEntity<Void> deleteJobConfigurationById(
             @PathVariable("jobconfigurationid") final Long jobConfigurationId) {
         this.serviceEntry.deleteJobConfiguration(jobConfigurationId);
@@ -109,7 +111,7 @@ public class JobConfigurationRestController extends AbstractRestController imple
      * @param jobConfigurationId the id of the JobConfiguration
      * @return HTTP Status Code 200
      */
-    @RequestMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATION_START, method = RequestMethod.GET)
+    @GetMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATION_START)
     public ResponseEntity<Void> startJobConfiguration(
             @PathVariable("jobconfigurationid") final Long jobConfigurationId) {
         this.serviceEntry.startJobConfiguration(jobConfigurationId);
@@ -122,7 +124,7 @@ public class JobConfigurationRestController extends AbstractRestController imple
      * @param jobConfigurationId the id of the JobConfiguration
      * @return HTTP Status Code 200
      */
-    @RequestMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATION_STOP, method = RequestMethod.GET)
+    @GetMapping(value = JobConfigurationRestControllerAPI.JOB_CONFIGURATION_STOP)
     public ResponseEntity<Void> stopJobConfiguration(
             @PathVariable("jobconfigurationid") final Long jobConfigurationId) {
         this.serviceEntry.stopJobConfiguration(jobConfigurationId);

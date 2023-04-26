@@ -6,6 +6,7 @@ import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.NoSuchJobException;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -36,7 +37,7 @@ public class MapLightminJobExecutionDao implements LightminJobExecutionDao {
 
         int jobInstanceCount;
         try {
-            jobInstanceCount = this.jobExplorer.getJobInstanceCount(jobName);
+            jobInstanceCount = Long.valueOf(this.jobExplorer.getJobInstanceCount(jobName)).intValue();
         } catch (final NoSuchJobException e) {
             jobInstanceCount = 0;
         }
@@ -105,9 +106,9 @@ public class MapLightminJobExecutionDao implements LightminJobExecutionDao {
         final List<JobExecution> result;
         if (queryParamater.containsKey(QueryParameterKey.START_DATE)) {
             result = new ArrayList<>();
-            final Date startDate = DaoUtil.castDate(queryParamater.get(QueryParameterKey.START_DATE));
+            final LocalDateTime startDate = DaoUtil.castDate(queryParamater.get(QueryParameterKey.START_DATE));
             for (final JobExecution jobExecution : allJobExecutions) {
-                if (startDate.before(jobExecution.getStartTime())) {
+                if (startDate.isBefore(jobExecution.getStartTime())) {
                     result.add(jobExecution);
                 }
             }
@@ -122,9 +123,9 @@ public class MapLightminJobExecutionDao implements LightminJobExecutionDao {
         final List<JobExecution> result;
         if (queryParamater.containsKey(QueryParameterKey.END_DATE)) {
             result = new ArrayList<>();
-            final Date endDate = DaoUtil.castDate(queryParamater.get(QueryParameterKey.END_DATE));
+            final LocalDateTime endDate = DaoUtil.castDate(queryParamater.get(QueryParameterKey.END_DATE));
             for (final JobExecution jobExecution : allJobExecutions) {
-                if (endDate.after(jobExecution.getEndTime())) {
+                if (endDate.isAfter(jobExecution.getEndTime())) {
                     result.add(jobExecution);
                 }
             }

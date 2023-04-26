@@ -6,9 +6,9 @@ import org.tuxdevelop.spring.batch.lightmin.server.fe.model.common.JobIncremeter
 import org.tuxdevelop.spring.batch.lightmin.server.fe.model.validator.ValidJobParameters;
 import org.tuxdevelop.spring.batch.lightmin.validation.annotation.IsCronExpression;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Map;
 

@@ -47,7 +47,7 @@ public class JdbcLightminJobExecutionDao extends JdbcJobExecutionDao implements 
         }
         try {
             final Long startAfterValue = this.getJdbcTemplate().queryForObject(
-                    this.byJobInstanceIdExecutionsPagingQueryProvider.generateJumpToItemQuery(start, count), Long.class,
+                    this.byJobInstanceIdExecutionsPagingQueryProvider.generateRemainingPagesQuery(count), Long.class,
                     jobInstance.getInstanceId());
             return this.getJdbcTemplate().query(
                     this.byJobInstanceIdExecutionsPagingQueryProvider.generateRemainingPagesQuery(count),
@@ -70,7 +70,7 @@ public class JdbcLightminJobExecutionDao extends JdbcJobExecutionDao implements 
         }
         try {
             final Long startAfterValue = this.getJdbcTemplate().queryForObject(
-                    this.byJobNamePagingQueryProvider.generateJumpToItemQuery(start, count), Long.class, jobName);
+                    this.byJobNamePagingQueryProvider.generateRemainingPagesQuery(count), Long.class, jobName);
             return this.getJdbcTemplate().query(this.byJobNamePagingQueryProvider.generateRemainingPagesQuery(count),
                     new JobExecutionRowMapper(), jobName, startAfterValue);
         } catch (final IncorrectResultSizeDataAccessException e) {
@@ -122,17 +122,17 @@ public class JdbcLightminJobExecutionDao extends JdbcJobExecutionDao implements 
 
             final JobExecution jobExecution;
             if (this.jobInstance == null) {
-                jobExecution = new JobExecution(id, this.jobParameters, jobConfigurationLocation);
+                jobExecution = new JobExecution(id, this.jobParameters);
             } else {
-                jobExecution = new JobExecution(this.jobInstance, id, this.jobParameters, jobConfigurationLocation);
+                jobExecution = new JobExecution(this.jobInstance, id, this.jobParameters);
             }
 
-            jobExecution.setStartTime(resultSet.getTimestamp(2));
-            jobExecution.setEndTime(resultSet.getTimestamp(3));
+            jobExecution.setStartTime(resultSet.getTimestamp(2).toLocalDateTime());
+            jobExecution.setEndTime(resultSet.getTimestamp(3).toLocalDateTime());
             jobExecution.setStatus(BatchStatus.valueOf(resultSet.getString(4)));
             jobExecution.setExitStatus(new ExitStatus(resultSet.getString(5), resultSet.getString(6)));
-            jobExecution.setCreateTime(resultSet.getTimestamp(7));
-            jobExecution.setLastUpdated(resultSet.getTimestamp(8));
+            jobExecution.setCreateTime(resultSet.getTimestamp(7).toLocalDateTime());
+            jobExecution.setLastUpdated(resultSet.getTimestamp(8).toLocalDateTime());
             jobExecution.setVersion(resultSet.getInt(9));
             return jobExecution;
         }

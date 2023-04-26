@@ -3,6 +3,7 @@ package org.tuxdevelop.spring.batch.lightmin.client.api.controller;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.tuxdevelop.spring.batch.lightmin.api.resource.batch.*;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @author Marcel Becker
  * @version 0.1
  */
+@Controller
 @ResponseBody
 @RequestMapping("/")
 public class JobRestController extends AbstractRestController implements InitializingBean {

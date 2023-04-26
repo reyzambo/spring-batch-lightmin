@@ -6,6 +6,7 @@ import org.tuxdevelop.spring.batch.lightmin.api.resource.common.JobParameter;
 import org.tuxdevelop.spring.batch.lightmin.api.resource.common.JobParameters;
 import org.tuxdevelop.spring.batch.lightmin.api.resource.common.ParameterType;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ApiTestHelper {
@@ -145,12 +146,12 @@ public class ApiTestHelper {
     public static JobExecution createJobExecution(final Long jobExecutionId) {
 
         final JobExecution jobExecution = new JobExecution();
-        jobExecution.setCreateTime(new Date());
-        jobExecution.setEndTime(new Date());
+        jobExecution.setCreateTime(LocalDateTime.now());
+        jobExecution.setEndTime(LocalDateTime.now());
         jobExecution.setExitStatus(new ExitStatus("COMPLETED"));
         jobExecution.setId(jobExecutionId);
         jobExecution.setJobParameters(new JobParameters());
-        jobExecution.setLastUpdated(new Date());
+        jobExecution.setLastUpdated(LocalDateTime.now());
         jobExecution.setStepExecutions(createStepExecutions(jobExecutionId));
         jobExecution.setJobInstance(createJobInstance(jobExecutionId, TEST_JOB_NAME));
         jobExecution.setStatus(BatchStatus.COMPLETED);
@@ -177,14 +178,14 @@ public class ApiTestHelper {
 
     public static StepExecution createStepExecution(final Long stepExecutionId, final Long jobExecutionId) {
         final StepExecution stepExecution = new StepExecution();
-        stepExecution.setStartTime(new Date());
-        stepExecution.setEndTime(new Date());
+        stepExecution.setStartTime(LocalDateTime.now());
+        stepExecution.setEndTime(LocalDateTime.now());
         stepExecution.setExitStatus(new ExitStatus("COMPLETED"));
         stepExecution.setId(stepExecutionId);
         stepExecution.setCommitCount(1);
         stepExecution.setFilterCount(1);
         stepExecution.setJobExecutionId(jobExecutionId);
-        stepExecution.setLastUpdated(new Date());
+        stepExecution.setLastUpdated(LocalDateTime.now());
         stepExecution.setProcessSkipCount(0);
         stepExecution.setReadCount(1);
         stepExecution.setRollbackCount(0);

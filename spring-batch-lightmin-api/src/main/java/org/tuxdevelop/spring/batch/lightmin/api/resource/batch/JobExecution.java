@@ -4,7 +4,7 @@ import lombok.Data;
 import org.tuxdevelop.spring.batch.lightmin.api.resource.common.JobParameters;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,10 +22,10 @@ public class JobExecution implements Serializable {
     private JobInstance jobInstance;
     private List<StepExecution> stepExecutions;
     private BatchStatus status;
-    private Date startTime;
-    private Date createTime;
-    private Date endTime;
-    private Date lastUpdated;
+    private LocalDateTime startTime;
+    private LocalDateTime createTime;
+    private LocalDateTime endTime;
+    private LocalDateTime lastUpdated;
     private ExitStatus exitStatus;
     private List<Throwable> failureExceptions;
     private String jobConfigurationName;

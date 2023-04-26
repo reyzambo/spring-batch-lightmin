@@ -47,7 +47,7 @@ public class MetricServiceBean implements MetricService {
             final String dataRollback = LightminMetricUtils.getMetricNameOrNull(source, LightminMetricUtils.LightminMetrics.LIGHTMIN_STEP_DATA_ROLLBACK);
 
             if (!isNull(dataRollback)) {
-                Gauge.builder(dataRollback, stepExecutionEventInfo.getRollbackCount(), Integer::doubleValue)
+                Gauge.builder(dataRollback, stepExecutionEventInfo.getRollbackCount(), Long::doubleValue)
                         .tags(tags)
                         .strongReference(true)
                         .register(this.registry);
@@ -61,7 +61,7 @@ public class MetricServiceBean implements MetricService {
         final String dataRead = LightminMetricUtils.getMetricNameOrNull(source, LightminMetricUtils.LightminMetrics.LIGHTMIN_STEP_DATA_READ);
 
         if (!isNull(dataRead)) {
-            Gauge.builder(dataRead, stepExecutionEventInfo.getReadCount(), Integer::doubleValue)
+            Gauge.builder(dataRead, stepExecutionEventInfo.getReadCount(), Long::doubleValue)
                     .tags(tags)
                     .strongReference(true)
                     .register(this.registry);
@@ -71,7 +71,7 @@ public class MetricServiceBean implements MetricService {
         final String dataWrite = LightminMetricUtils.getMetricNameOrNull(source, LightminMetricUtils.LightminMetrics.LIGHTMIN_STEP_DATA_WRITE);
 
         if (!isNull(dataWrite)) {
-            Gauge.builder(dataWrite, stepExecutionEventInfo.getWriteCount(), Integer::doubleValue)
+            Gauge.builder(dataWrite, stepExecutionEventInfo.getWriteCount(), Long::doubleValue)
                     .tags(tags)
                     .strongReference(true)
                     .register(this.registry);
@@ -81,7 +81,7 @@ public class MetricServiceBean implements MetricService {
         final String dataCommit = LightminMetricUtils.getMetricNameOrNull(source, LightminMetricUtils.LightminMetrics.LIGHTMIN_STEP_DATA_WRITE);
 
         if (!isNull(dataCommit)) {
-            Gauge.builder(dataCommit, stepExecutionEventInfo.getCommitCount(), Integer::doubleValue)
+            Gauge.builder(dataCommit, stepExecutionEventInfo.getCommitCount(), Long::doubleValue)
                     .tags(tags)
                     .strongReference(true)
                     .register(this.registry);

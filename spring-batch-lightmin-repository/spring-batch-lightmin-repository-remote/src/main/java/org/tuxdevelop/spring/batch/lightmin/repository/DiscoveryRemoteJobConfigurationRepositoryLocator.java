@@ -1,5 +1,6 @@
 package org.tuxdevelop.spring.batch.lightmin.repository;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -7,7 +8,6 @@ import org.springframework.util.StringUtils;
 import org.tuxdevelop.spring.batch.lightmin.exception.SpringBatchLightminConfigurationException;
 import org.tuxdevelop.spring.batch.lightmin.repository.configuration.RemoteJobConfigurationRepositoryConfigurationProperties;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Random;
 

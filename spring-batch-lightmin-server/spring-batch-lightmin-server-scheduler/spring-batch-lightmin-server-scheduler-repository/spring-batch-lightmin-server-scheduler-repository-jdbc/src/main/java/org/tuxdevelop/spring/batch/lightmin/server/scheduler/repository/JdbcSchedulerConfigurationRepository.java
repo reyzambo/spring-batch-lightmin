@@ -189,7 +189,7 @@ public class JdbcSchedulerConfigurationRepository implements SchedulerConfigurat
             }
             try {
                 final Long startAfterValue = this.jdbcTemplate.queryForObject(
-                        this.findAllPagingQueryProvider.generateJumpToItemQuery(startIndex, startIndex), Long.class);
+                        this.findAllPagingQueryProvider.generateRemainingPagesQuery(pageSize), Long.class);
                 final List<SchedulerConfiguration> schedulerConfigurations =
                         this.jdbcTemplate.query(this.findAllPagingQueryProvider.generateRemainingPagesQuery(pageSize),
                                 this.rowMapper, startAfterValue);

@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.util.StringUtils;
 import org.tuxdevelop.spring.batch.lightmin.util.DurationHelper;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public abstract class CommonExecutionModel {
@@ -18,8 +18,8 @@ public abstract class CommonExecutionModel {
     protected Long id;
     protected String status;
     protected String exitStatus;
-    protected Date startTime;
-    protected Date endTime;
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
     protected String exitMessage;
 
     public String getDuration() {

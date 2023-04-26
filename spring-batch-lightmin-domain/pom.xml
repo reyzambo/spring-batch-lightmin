@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-batch-lightmin</artifactId>
         <groupId>org.tuxdevelop</groupId>
-        <version>2.2.2-SNAPSHOT</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -40,6 +40,14 @@
             <groupId>org.tuxdevelop</groupId>
             <artifactId>spring-batch-lightmin-validation</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
 
 

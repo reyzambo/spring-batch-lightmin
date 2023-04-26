@@ -6,16 +6,13 @@
 
     <groupId>org.tuxdevelop</groupId>
     <artifactId>spring-batch-lightmin-bom</artifactId>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>3.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Spring Batch Lightmin BOM</name>
 
     <!-- project description -->
     <description>BOM for Spring Batch Lightmin</description>
-
-    <!-- project url -->
-    <url>https://github.com/tuxdevelop/spring-batch-lightmin/spring-batch-lightmin-bom</url>
 
     <!-- license -->
     <licenses>
@@ -24,13 +21,6 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-    <developers>
-        <developer>
-            <name>Marcel Becker</name>
-            <email>tuxdevelop@gmail.com</email>
-        </developer>
-    </developers>
-
 
     <properties>
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
@@ -156,12 +146,6 @@
             <dependency>
                 <groupId>org.tuxdevelop</groupId>
                 <artifactId>spring-batch-lightmin-repository-jdbc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.tuxdevelop</groupId>
-                <artifactId>spring-batch-lightmin-repository-map</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -317,25 +301,25 @@
     </dependencyManagement>
 
     <!-- scm information -->
-    <scm>
-        <connection>scm:git:git@github.com:tuxdevelop/spring-batch-lightmin.git</connection>
-        <developerConnection>scm:git:tuxdevelop@github.com:tuxdevelop/spring-batch-lightmin.git
-        </developerConnection>
-        <url>https://github.com/tuxdevelop/spring-batch-lightmin.git</url>
-    </scm>
+<!--    <scm>-->
+<!--        <connection>scm:git:git@github.com:tuxdevelop/spring-batch-lightmin.git</connection>-->
+<!--        <developerConnection>scm:git:tuxdevelop@github.com:tuxdevelop/spring-batch-lightmin.git-->
+<!--        </developerConnection>-->
+<!--        <url>https://github.com/tuxdevelop/spring-batch-lightmin.git</url>-->
+<!--    </scm>-->
 
 
     <!-- distribution management -->
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
+<!--    </distributionManagement>-->
 
     <!-- build section -->
     <build>

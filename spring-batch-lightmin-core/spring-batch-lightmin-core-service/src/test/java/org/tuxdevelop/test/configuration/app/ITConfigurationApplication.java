@@ -8,13 +8,13 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.RestTemplate;
 import org.tuxdevelop.spring.batch.lightmin.annotation.EnableLightminService;
-import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminMapConfigurationRepository;
+import org.tuxdevelop.spring.batch.lightmin.repository.annotation.EnableLightminJdbcConfigurationRepository;
 
 import javax.sql.DataSource;
 
 @SpringBootApplication
 @EnableLightminService
-@EnableLightminMapConfigurationRepository
+@EnableLightminJdbcConfigurationRepository
 public class ITConfigurationApplication {
 
     public static void main(final String[] args) {

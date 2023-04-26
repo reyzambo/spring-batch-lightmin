@@ -1,5 +1,6 @@
 package org.tuxdevelop.spring.batch.lightmin.repository.configuration;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.tuxdevelop.spring.batch.lightmin.exception.SpringBatchLightminConfigurationException;
 import org.tuxdevelop.spring.batch.lightmin.repository.JobConfigurationRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Slf4j

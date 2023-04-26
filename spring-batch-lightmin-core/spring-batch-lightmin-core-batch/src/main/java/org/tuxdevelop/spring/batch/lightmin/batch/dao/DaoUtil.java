@@ -2,6 +2,8 @@ package org.tuxdevelop.spring.batch.lightmin.batch.dao;
 
 import org.tuxdevelop.spring.batch.lightmin.exception.SpringBatchLightminApplicationException;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Date;
  */
 final class DaoUtil {
 
-    static Date castDate(final Object input) {
+    static LocalDateTime castDate(final Object input) {
         final Date date;
         if (input instanceof Date) {
             date = (Date) input;
@@ -19,6 +21,6 @@ final class DaoUtil {
         } else {
             throw new SpringBatchLightminApplicationException("could not parse date for input class " + input.getClass());
         }
-        return date;
+        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 }

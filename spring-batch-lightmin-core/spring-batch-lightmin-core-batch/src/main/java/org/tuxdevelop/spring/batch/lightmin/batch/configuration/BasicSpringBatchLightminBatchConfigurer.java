@@ -2,16 +2,13 @@ package org.tuxdevelop.spring.batch.lightmin.batch.configuration;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.explore.support.JobExplorerFactoryBean;
-import org.springframework.batch.core.explore.support.MapJobExplorerFactoryBean;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
+import org.springframework.batch.core.launch.support.TaskExecutorJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.dao.*;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
-import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean;
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers;
@@ -26,7 +23,7 @@ import org.tuxdevelop.spring.batch.lightmin.exception.SpringBatchLightminConfigu
 import javax.sql.DataSource;
 
 @Slf4j
-public class BasicSpringBatchLightminBatchConfigurer implements BatchConfigurer, InitializingBean {
+public class BasicSpringBatchLightminBatchConfigurer implements InitializingBean {
 
     @Getter
     private JobInstanceDao jobInstanceDao;
@@ -64,22 +61,19 @@ public class BasicSpringBatchLightminBatchConfigurer implements BatchConfigurer,
         this.tablePrefix = tablePrefix;
         this.transactionManagerCustomizers = transactionManagerCustomizers;
     }
-    @Override
+
     public JobRepository getJobRepository() {
         return this.jobRepository;
     }
 
-    @Override
     public PlatformTransactionManager getTransactionManager() {
         return this.transactionManager;
     }
 
-    @Override
     public JobLauncher getJobLauncher()  {
         return this.jobLauncher;
     }
 
-    @Override
     public JobExplorer getJobExplorer()  {
         return this.jobExplorer;
     }
@@ -95,7 +89,7 @@ public class BasicSpringBatchLightminBatchConfigurer implements BatchConfigurer,
             if (this.dataSource != null) {
                 this.createJdbcComponents();
             } else {
-                this.createMapComponents();
+                throw  new SpringBatchLightminConfigurationException("Datasource is null!");
             }
             this.jobLauncher = this.createJobLauncher();
         } catch (final Exception e) {
@@ -110,7 +104,9 @@ public class BasicSpringBatchLightminBatchConfigurer implements BatchConfigurer,
         final JobExplorerFactoryBean jobExplorerFactoryBean = new JobExplorerFactoryBean();
         jobExplorerFactoryBean.setTablePrefix(this.tablePrefix);
         jobExplorerFactoryBean.setDataSource(this.dataSource);
+        jobExplorerFactoryBean.setTransactionManager(this.transactionManager);
         jobExplorerFactoryBean.afterPropertiesSet();
+
         this.jobExplorer = jobExplorerFactoryBean.getObject();
 
         // jobExecutionDao
@@ -123,31 +119,11 @@ public class BasicSpringBatchLightminBatchConfigurer implements BatchConfigurer,
         this.jobRepository = this.createJobRepository();
     }
 
-    //TODO: redesign with Spring Batch 5
-    protected void createMapComponents() throws Exception {
-        // jobRepository
-        final MapJobRepositoryFactoryBean jobRepositoryFactory = new MapJobRepositoryFactoryBean(
-                this.transactionManager);
-        jobRepositoryFactory.afterPropertiesSet();
-        this.jobRepository = jobRepositoryFactory.getObject();
-        // jobExplorer
-        final MapJobExplorerFactoryBean jobExplorerFactory = new MapJobExplorerFactoryBean(
-                jobRepositoryFactory);
-        jobExplorerFactory.afterPropertiesSet();
-        this.jobExplorer = jobExplorerFactory.getObject();
-        // jobExecutionDao
-        this.jobExecutionDao = new MapJobExecutionDao();
-        // jobInstanceDao
-        this.jobInstanceDao = new MapJobInstanceDao();
-        // stepExecutionDao
-        this.stepExecutionDao = new MapStepExecutionDao();
-    }
-
     protected JobLauncher createJobLauncher() throws Exception {
-        SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
-        jobLauncher.setJobRepository(getJobRepository());
-        jobLauncher.afterPropertiesSet();
-        return jobLauncher;
+        TaskExecutorJobLauncher taskExecutorJobLauncher = new TaskExecutorJobLauncher();
+        taskExecutorJobLauncher.setJobRepository(getJobRepository());
+        taskExecutorJobLauncher.afterPropertiesSet();
+        return taskExecutorJobLauncher;
     }
 
     protected JobRepository createJobRepository() throws Exception {
@@ -170,19 +146,19 @@ public class BasicSpringBatchLightminBatchConfigurer implements BatchConfigurer,
     }
 
     protected PlatformTransactionManager createTransactionManager() {
-        final PlatformTransactionManager transactionManager;
+        final PlatformTransactionManager platformTransactionManager;
         if(this.dataSource != null) {
-            transactionManager = new DataSourceTransactionManager(this.dataSource);
+            platformTransactionManager = new DataSourceTransactionManager(this.dataSource);
         }else{
-            transactionManager = new ResourcelessTransactionManager();
+            platformTransactionManager = new ResourcelessTransactionManager();
         }
-        return transactionManager;
+        return platformTransactionManager;
     }
 
     protected JobInstanceDao createJobInstanceDao() throws Exception {
         final JdbcJobInstanceDao dao = new JdbcJobInstanceDao();
         dao.setJdbcTemplate(this.jdbcTemplate);
-        dao.setJobIncrementer(this.incrementer);
+        dao.setJobInstanceIncrementer(this.incrementer);
         dao.setTablePrefix(this.tablePrefix);
         dao.afterPropertiesSet();
         return dao;
@@ -213,10 +189,10 @@ public class BasicSpringBatchLightminBatchConfigurer implements BatchConfigurer,
     }
 
     private PlatformTransactionManager buildTransactionManager() {
-        PlatformTransactionManager transactionManager = createTransactionManager();
+        PlatformTransactionManager platformTransactionManager = createTransactionManager();
         if (this.transactionManagerCustomizers != null) {
-            this.transactionManagerCustomizers.customize(transactionManager);
+            this.transactionManagerCustomizers.customize(platformTransactionManager);
         }
-        return transactionManager;
+        return platformTransactionManager;
     }
 }

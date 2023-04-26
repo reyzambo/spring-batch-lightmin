@@ -1,6 +1,6 @@
 package org.tuxdevelop.spring.batch.lightmin.batch.configuration;
 
-import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.tuxdevelop.spring.batch.lightmin.exception.SpringBatchLightminConfigurationException;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
@@ -27,7 +26,7 @@ public class JpaBatchConfigurerConfiguration implements ApplicationContextAware 
     }
 
     @Bean
-    public BatchConfigurer batchConfigurer(
+    public BasicSpringBatchLightminBatchConfigurer batchConfigurer(
             final EntityManagerFactory entityManagerFactory,
             final ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
         final JpaSpringBatchLightminBatchConfigurer batchConfigurer;
@@ -37,9 +36,6 @@ public class JpaBatchConfigurerConfiguration implements ApplicationContextAware 
                 final DataSource dataSource = this.getDataSource();
                 final String tablePrefix = this.properties.getTablePrefix();
                 batchConfigurer = new JpaSpringBatchLightminBatchConfigurer(transactionManagerCustomizers.getIfAvailable(), dataSource, tablePrefix, entityManagerFactory);
-                break;
-            case MAP:
-                batchConfigurer = new JpaSpringBatchLightminBatchConfigurer(transactionManagerCustomizers.getIfAvailable(), entityManagerFactory);
                 break;
             default:
                 throw new SpringBatchLightminConfigurationException("Unknown BatchRepositoryType: " + batchRepositoryType);

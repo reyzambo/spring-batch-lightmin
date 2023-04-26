@@ -53,7 +53,7 @@ public class DurationHelperTest {
     @Test
     public void createDurationValueStarTimeAndEndTimeNullTest() {
         final String expectedValue = "000 ms";
-        final String durationValue = DurationHelper.createDurationValue(null, null);
+        final String durationValue = DurationHelper.createDurationValue((Date) null, null);
         assertThat(durationValue).isEqualTo(expectedValue);
     }
 

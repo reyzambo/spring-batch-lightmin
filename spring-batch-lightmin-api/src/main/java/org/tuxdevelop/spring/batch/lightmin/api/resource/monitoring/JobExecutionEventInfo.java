@@ -4,7 +4,7 @@ import lombok.Data;
 import org.tuxdevelop.spring.batch.lightmin.api.resource.batch.ExitStatus;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author Marcel Becker
@@ -18,7 +18,7 @@ public class JobExecutionEventInfo implements Serializable {
     private String jobName;
     private Long jobExecutionId;
     private ExitStatus exitStatus;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
 }

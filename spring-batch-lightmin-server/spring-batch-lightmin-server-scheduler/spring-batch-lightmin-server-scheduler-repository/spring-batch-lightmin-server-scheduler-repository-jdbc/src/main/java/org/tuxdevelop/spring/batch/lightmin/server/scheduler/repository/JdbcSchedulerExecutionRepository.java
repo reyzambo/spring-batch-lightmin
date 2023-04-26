@@ -169,7 +169,7 @@ public class JdbcSchedulerExecutionRepository implements SchedulerExecutionRepos
         }
         try {
             final Long startAfterValue = this.jdbcTemplate.queryForObject(
-                    this.findAllPagingQueryProvider.generateJumpToItemQuery(startIndex, pageSize), Long.class);
+                    this.findAllPagingQueryProvider.generateRemainingPagesQuery(pageSize), Long.class);
             return this.jdbcTemplate.query(this.findAllPagingQueryProvider.generateRemainingPagesQuery(pageSize),
                     this.rowMapper, startAfterValue);
         } catch (final IncorrectResultSizeDataAccessException e) {
@@ -207,7 +207,7 @@ public class JdbcSchedulerExecutionRepository implements SchedulerExecutionRepos
         }
         try {
             final Long startAfterValue = this.jdbcTemplate.queryForObject(
-                    this.byStatePagingQueryProvider.generateJumpToItemQuery(startIndex, pageSize), Long.class, state);
+                    this.byStatePagingQueryProvider.generateRemainingPagesQuery(pageSize), Long.class, state);
             return this.jdbcTemplate.query(this.byStatePagingQueryProvider.generateRemainingPagesQuery(pageSize),
                     this.rowMapper, state, startAfterValue);
         } catch (final IncorrectResultSizeDataAccessException e) {

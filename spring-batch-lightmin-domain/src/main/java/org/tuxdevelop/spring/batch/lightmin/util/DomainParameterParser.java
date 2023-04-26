@@ -162,9 +162,9 @@ public final class DomainParameterParser {
      * @return a String representation of {@link JobParameters}
      */
     public static String parseJobParametersToString(final JobParameters jobParameters) {
-        final Map<String, JobParameter> jobParametersMap = jobParameters.getParameters();
+        final Map<String, JobParameter<?>> jobParametersMap = jobParameters.getParameters();
         final Map<String, Object> paramatersMap = new HashMap<>();
-        for (final Entry<String, JobParameter> entry : jobParametersMap.entrySet()) {
+        for (final Entry<String, JobParameter<?>> entry : jobParametersMap.entrySet()) {
             paramatersMap.put(entry.getKey(), entry.getValue().getValue());
         }
         return parseParameterMapToString(paramatersMap);
