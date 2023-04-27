@@ -14,6 +14,9 @@
     <!-- project description -->
     <description>BOM for Spring Batch Lightmin</description>
 
+    <!-- project url -->
+    <url>https://github.com/tuxdevelop/spring-batch-lightmin/spring-batch-lightmin-bom</url>
+
     <!-- license -->
     <licenses>
         <license>
@@ -21,6 +24,13 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>Marcel Becker</name>
+            <email>tuxdevelop@gmail.com</email>
+        </developer>
+    </developers>
+
 
     <properties>
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>

@@ -16,7 +16,7 @@
     </description>
 
     <!-- project url -->
-    <url>https://github.com/reyzambo/spring-batch-lightmin</url>
+    <url>https://github.com/tuxdevelop/spring-batch-lightmin</url>
 
     <!-- license -->
     <licenses>
@@ -29,10 +29,6 @@
         <developer>
             <name>Marcel Becker</name>
             <email>tuxdevelop@gmail.com</email>
-        </developer>
-        <developer>
-            <name>Massimo Zamboni</name>
-            <email>reyzambo2@hotmail.com</email>
         </developer>
     </developers>
 
@@ -393,7 +389,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.5.0</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
