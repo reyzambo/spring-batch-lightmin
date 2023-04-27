@@ -58,7 +58,9 @@ public final class DurationHelper {
 
 
     public static String createDurationValue(LocalDateTime startTime, LocalDateTime endTime) {
-        return createDurationValue(Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant()), Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant()));
+        return createDurationValue(
+                startTime != null ? Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant()) : null,
+                endTime != null ? Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant()) : null);
     }
 
     private static String format(final Date date) {

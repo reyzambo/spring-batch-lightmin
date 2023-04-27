@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/global-layout :: header"></head>
+<head th:insert="~{fragments/global-layout :: header}"></head>
 
 <body>
 
 <div id="wrapper" class="toggled">
 
     <!-- sidebar -->
-    <div th:include="fragments/global-layout :: sidebar"></div>
+    <div th:insert="~{fragments/global-layout :: sidebar}"></div>
 
     <!-- sidebar content wrapper-->
     <div id="page-content-wrapper">
-        <div th:include="fragments/events-navigation :: nav"></div>
+        <div th:insert="~{fragments/events-navigation :: nav}"></div>
 
     </div>
 </div>

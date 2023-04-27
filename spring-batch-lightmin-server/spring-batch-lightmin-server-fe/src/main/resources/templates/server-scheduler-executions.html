@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/global-layout :: header"/>
+<head th:insert="~{fragments/global-layout :: header}"/>
 
 <body>
 
 <div id="wrapper" class="toggled">
 
     <!-- sidebar -->
-    <div th:include="fragments/global-layout :: sidebar"></div>
+    <div th:insert="~{fragments/global-layout :: sidebar}"></div>
 
     <!-- sidebar content wrapper-->
     <div id="page-content-wrapper">
-        <div th:include="fragments/server-schedulers-navigation :: nav"/>
+        <div th:insert="~{fragments/server-schedulers-navigation :: nav}"/>
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -24,7 +24,7 @@
             </ol>
         </nav>
 
-        <div th:include="fragments/scheduler-executions.html:: scheduler-executions"/>
+        <div th:insert="~{fragments/scheduler-executions.html:: scheduler-executions}"/>
 
         <span class="text-left" th:if="${pageModel.hasPrevious}">
                         <a href="#"

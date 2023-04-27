@@ -17,6 +17,7 @@ import java.util.Collection;
 @Slf4j
 @ResponseBody
 @RequestMapping(value = "api/applications")
+@RestController
 public class RegistrationController {
 
     private final RegistrationBean registrationBean;

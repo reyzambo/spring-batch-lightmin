@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/global-layout :: header"></head>
+<head th:insert="~{fragments/global-layout :: header}"></head>
 
 <body>
 
 <div id="wrapper" class="toggled">
 
     <!-- sidebar -->
-    <div th:include="fragments/global-layout :: sidebar"></div>
+    <div th:insert="~{fragments/global-layout :: sidebar}"></div>
 
     <!-- sidebar content wrapper-->
     <div id="page-content-wrapper">
-        <div th:include="fragments/application-navigation :: nav"></div>
+        <div th:insert="~{fragments/application-navigation :: nav}"></div>
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -66,9 +66,9 @@
             <input type="hidden" th:value="*{jobName}"
                    th:field="${applicationContextModel.jobName}"/>
 
-            <div th:include="fragments/validation :: field-errors"></div>
+            <div th:insert="~{fragments/validation :: field-errors}"></div>
         </form>
-        <div th:include="fragments/hints :: job-parameter-description"></div>
+        <div th:insert="~{fragments/hints :: job-parameter-description}"></div>
     </div>
 </div>
 </body>

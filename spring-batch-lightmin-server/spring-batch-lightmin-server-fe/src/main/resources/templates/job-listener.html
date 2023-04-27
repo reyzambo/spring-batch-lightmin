@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/global-layout :: header"></head>
+<head th:insert="~{fragments/global-layout :: header}"></head>
 
 <body>
 
 <div id="wrapper" class="toggled">
 
     <!-- sidebar -->
-    <div th:include="fragments/global-layout :: sidebar"></div>
+    <div th:insert="~{fragments/global-layout :: sidebar}"></div>
 
     <!-- sidebar content wrapper-->
     <div id="page-content-wrapper">
-        <div th:include="fragments/application-navigation :: nav"></div>
+        <div th:insert="~{fragments/application-navigation :: nav}"></div>
 
         <div class="row-fluid">
             <nav aria-label="breadcrumb">
@@ -224,11 +224,11 @@
                         </button>
                     </div>
                 </div>
-                <div th:include="fragments/validation :: field-errors"></div>
+                <div th:insert="~{fragments/validation :: field-errors}"></div>
             </form>
 
             <div id="paramHint" class="collapse multi-collapse show"
-                    th:include="fragments/hints :: job-parameter-description"></div>
+                    th:insert="~{fragments/hints :: job-parameter-description}"></div>
 
         </div>
     </div>
