@@ -73,14 +73,22 @@ public class SpringBatchLightminBatchConfiguration extends DefaultBatchConfigura
         return batchConfigurer.getJobRepository();
     }
 
+    @Bean
+    SimpleAsyncTaskExecutor defaultSimpleAsyncTaskExecutor(){
+        return new SimpleAsyncTaskExecutor();
+    }
+
     /*
      * TODO: check why it is needed
      */
     @Bean(name = "defaultAsyncJobLauncher")
-    public JobLauncher defaultAsyncJobLauncher(final JobRepository jobRepository) {
+    public JobLauncher defaultAsyncJobLauncher(
+            final JobRepository jobRepository,
+            final SimpleAsyncTaskExecutor simpleAsyncTaskExecutor
+            ) {
         final TaskExecutorJobLauncher jobLauncher = new TaskExecutorJobLauncher();
         jobLauncher.setJobRepository(jobRepository);
-        jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        jobLauncher.setTaskExecutor(simpleAsyncTaskExecutor);
         return jobLauncher;
     }
 
